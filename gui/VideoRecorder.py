@@ -10,7 +10,6 @@ class VideoRecorder(QtCore.QObject):
         self.camera = cv2.VideoCapture(0)
         self.cam_x, self.cam_y, self.cam_ch = (0, 0, 0)
         self.timer = QtCore.QBasicTimer()
-        self.camera.set(cv2.CAP_PROP_FPS, 10)
 
     def init_video_slot(self, path):
         self.camera.release()

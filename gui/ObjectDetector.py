@@ -9,6 +9,8 @@ class ObjectDetector(QtWidgets.QWidget):
         self.Pred = None
         self.image = QtGui.QImage()
         self.classes_list = None
+        self.data_file = open('runtime.log', 'w')
+        self.i = 0
 
     def init_predictor(self, model_path, coco_path, anchor_path):
         self.Pred = Predictor(model_path, coco_path, anchor_path)
@@ -32,6 +34,12 @@ class ObjectDetector(QtWidgets.QWidget):
         image_data = self.predict(image_data)
         stop = time.time()
         print('Prediction took: {}'.format(stop - start))
+        self.i += 1
+        print(self.i)
+        if self.i > 100:
+            self.data_file.close()
+            exit()
+        self.data_file.write(str(self.i) + ',' + str(1/(stop-start)) + '\n')
         self.image = self.get_qimage(image_data)
         if self.image.size() != self.size():
             self.setFixedSize(self.image.size())
